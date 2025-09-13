@@ -1,25 +1,25 @@
-# config/settings.py
 import os
-from dotenv import load_dotenv
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
-load_dotenv(".env.local")
-
-class Settings:
-    # LiveKit
-    LIVEKIT_API_KEY = os.getenv("LIVEKIT_API_KEY")
-    LIVEKIT_API_SECRET = os.getenv("LIVEKIT_API_SECRET")
-    LIVEKIT_URL = os.getenv("LIVEKIT_URL")
+class Settings(BaseSettings):
+    # OpenAI Configuration (for LangGraph LLM)
+    OPENAI_API_KEY: str
     
-    # OpenAI (NOT Azure)
-    OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+    # Google Cloud Configuration (for STT)
+    GOOGLE_APPLICATION_CREDENTIALS: str
     
-    # Google Cloud
-    GOOGLE_APPLICATION_CREDENTIALS = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
+    # ElevenLabs Configuration (for TTS)
+    ELEVEN_API_KEY: str
     
-    # ElevenLabs
-    ELEVEN_API_KEY = os.getenv("ELEVEN_API_KEY")
+    # LiveKit Configuration
+    LIVEKIT_URL: str
+    LIVEKIT_API_KEY: str
+    LIVEKIT_API_SECRET: str
     
-    # Task storage
-    TASKS_FILE = "data/tasks.json"
+    model_config = SettingsConfigDict(
+        env_file=".env.local",
+        case_sensitive=True,
+        extra='ignore'  # Allow extra environment variables
+    )
 
 settings = Settings()
