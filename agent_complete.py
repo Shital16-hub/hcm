@@ -7,6 +7,8 @@ from livekit.plugins import noise_cancellation, silero, google, openai
 from livekit.plugins.turn_detector.multilingual import MultilingualModel
 from task_manager.graph_simple import create_task_manager_graph
 from adapter.langgraph import LangGraphAdapter
+from livekit.plugins import elevenlabs
+
 
 load_dotenv(".env.local")
 logging.basicConfig(level=logging.INFO)
@@ -50,10 +52,9 @@ async def entrypoint(ctx: JobContext):
         ),
         
         # OpenAI TTS
-        tts=openai.TTS(
-            voice="alloy",
-            model="tts-1",
-            speed=1.0
+        tts=elevenlabs.TTS(
+        voice_id="pNInz6obpgDQGcFmaJgB",
+        model="eleven_multilingual_v2"
         ),
         
         # FIXED: Use default VAD configuration (no custom parameters)
